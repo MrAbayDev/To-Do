@@ -22,6 +22,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-
+    Route::post('tasks/{id}/toggle', [TaskController::class, 'toggleComplete'])->name('tasks.toggle');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });

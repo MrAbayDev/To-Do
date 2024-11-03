@@ -17,7 +17,6 @@ class TaskController extends Controller
         $tasks = Task::where('user_id', Auth::id())->get();
         return view('dashboard', ['tasks' => $tasks]);
     }
-
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -31,7 +30,7 @@ class TaskController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('tasks.index');
     }
 
     public function destroy($id): RedirectResponse
@@ -39,6 +38,15 @@ class TaskController extends Controller
         $task = Task::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $task->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('tasks.index');
     }
+    public function toggleComplete($id): RedirectResponse
+    {
+        $task = Task::findOrFail($id);
+        $task->completed = !$task->completed;
+        $task->save();
+
+        return redirect()->route('tasks.index')->with('success', 'Vazifa holati yangilandi.');
+    }
+
 }

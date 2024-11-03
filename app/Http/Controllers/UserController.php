@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         return view('auth.login');
     }
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return redirect()->route('register');
         }
 
         $user = User::create([
@@ -40,10 +40,7 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        return response()->json([
-            'message' => 'Foydalanuvchi muvaffaqiyatli ro‘yxatdan o‘tdi',
-            'user' => $user
-        ]);
+        return redirect()->route('dashboard');
     }
     public function authenticate(Request $request): RedirectResponse
     {
@@ -58,13 +55,18 @@ class UserController extends Controller
             'email' => 'Email yoki parol noto‘g‘ri.'
         ]);
     }
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(['message' => 'Foydalanuvchi tizimdan chiqdi']);
+        return redirect()->route('dashboard');
+    }
+    public function show(): View|Factory|Application
+    {
+        $user = Auth::user();
+        return view('users.show', compact('user'));
     }
 
 }

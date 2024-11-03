@@ -2,22 +2,45 @@
 
 <body class="bg-gray-100 h-screen">
 <div class="flex h-screen">
-    <div class="w-1/4 bg-blue-500 text-white p-6">
-        <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
-        <nav>
-            <ul>
-                <li><a href="{{ route('dashboard') }}" class="block py-2 px-4 hover:bg-blue-600 rounded">Home</a></li>
-                <li><a href="{{ route('tasks.index') }}" class="block py-2 px-4 hover:bg-blue-600 rounded">Tasks</a></li>
-            </ul>
-        </nav>
-    </div>
     <div class="w-3/4 p-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to your Dashboard!</h1>
-        <p class="text-gray-600">This is your dashboard where you can view and manage your tasks and other data.</p>
-
-        <!-- Embed tasks.index view here -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Добро пожаловать в вашу Панель управления!</h1>
+        <p class="text-gray-600">Это ваша панель управления, где вы можете просматривать и управлять своими задачами и другими данными.</p>
         <div class="grid grid-cols-3 gap-4 mt-6">
-            @include('tasks.index')
+            <div class="container mx-auto p-4">
+                <form method="POST" action="{{ route('tasks.store') }}" class="mb-4 space-y-4">
+                    @csrf
+                    <input type="text" name="title" placeholder="Название задачи..." required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+                    <textarea name="description" placeholder="Описание задачи..." rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"></textarea>
+                    <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none">Добавить</button>
+                </form>
+                <ul>
+                    @foreach ($tasks as $task)
+                        <li class="flex flex-col bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 mb-2">
+                            <div class="flex justify-between items-center">
+                <span class="font-semibold text-gray-700 {{ $task->completed ? 'line-through text-gray-400' : '' }}">
+                    {{ $task->title }}
+                </span>
+                                <form method="POST" action="{{ route('tasks.toggle', $task->id) }}" class="ml-4">
+                                    @csrf
+                                    <button type="submit" class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                                        <i class="fas {{ $task->completed ? 'fa-undo' : 'fa-check' }}"></i> {{ $task->completed ? 'Восстановить' : 'Завершить' }}
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" class="ml-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none" onclick="return confirm('Вы действительно хотите удалить эту задачу?');">Удалить</button>
+                                </form>
+                            </div>
+                            <p class="text-gray-600 mt-1">{{ $task->description }}</p>
+
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
         </div>
     </div>
 </div>
