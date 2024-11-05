@@ -63,13 +63,14 @@ class UserController extends Controller
     {
         return view('error');
     }
-    public function logout(Request $request): RedirectResponse
-    {
-        Auth::logout();
+    public function logout(Request $request): RedirectResponse {
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
+
 
     public function show(): View|Factory|Application
     {
