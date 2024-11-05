@@ -53,10 +53,10 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard'); // Redirect to the dashboard after login
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->route('error')->withErrors([
+        return redirect()->route('login')->withErrors([
         ]);
     }
     public function error(): View|Factory|Application
@@ -68,8 +68,7 @@ class UserController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('login'); // Redirect to login page after logout
+        return redirect()->route('login');
     }
 
     public function show(): View|Factory|Application

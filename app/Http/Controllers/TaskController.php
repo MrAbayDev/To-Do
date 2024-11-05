@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function index(): View|Factory|Application
     {
         $tasks = Task::where('user_id', Auth::id())->get();
-        return view('dashboard', ['tasks' => $tasks]);
+        return view('dashboard', compact('tasks'));
     }
     public function store(Request $request): RedirectResponse
     {
