@@ -11,10 +11,10 @@ Route::get('/', function () {
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/register', [UserController::class, 'store'])->name('register.store');
 Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('error', [UserController::class, 'error'])->name('error');
 Route::post('/login', [UserController::class, 'authenticate'])->name('login.authenticate');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
