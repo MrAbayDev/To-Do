@@ -4,7 +4,7 @@
 <div class="flex h-screen">
     <div class="w-3/4 p-6">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Добро пожаловать в вашу Панель управления!</h1>
-        <p class="text-gray-600">Это ваша панель управления, где вы можете просматривать и управлять своими задачами и другими данными.</p>
+        <p class="text-gray-600">Это ваша панель управления, где вы можете просматривать и управлять своими задачами.</p>
 
         <div class="flex justify-end mb-4">
             <form method="POST" action="{{ route('logout') }}">
