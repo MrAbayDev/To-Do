@@ -46,7 +46,7 @@ class TaskController extends Controller
         $task->completed = !$task->completed;
         $task->save();
 
-        return redirect()->route('tasks.index')->with('success', 'Vazifa holati yangilandi.');
+        return redirect()->route('tasks.index')->with('success');
     }
 
 }
