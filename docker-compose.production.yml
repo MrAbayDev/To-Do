@@ -26,7 +26,7 @@ services:
         image: mysql:8
         restart: always
         ports:
-            - "3307:3306"
+            - "3306:3306"
         environment:
             MYSQL_DATABASE: to_do
             MYSQL_ROOT_PASSWORD: root
